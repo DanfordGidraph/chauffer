@@ -1,15 +1,24 @@
 import React, { Component } from 'react';
-import { ToolbarAndroid,View,TextInput,Text, ScrollView,StyleSheet } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
+import { ToolbarAndroid,View,TextInput,Text, ScrollView,StyleSheet,Dimensions, TouchableOpacity,} from 'react-native';
+import TabNavigator from 'react-native-tab-navigator';
 
 import Login from './Login';
 import Register from './Register'
 
+let height = Dimensions.get('screen').height;
+let width = Dimensions.get('screen').width;
+
 export default class User extends Component {
-    state = {  }
+    constructor(props){
+        super(props);
+        this.state = {
+            selectedTab: 'login'
+        }
+    }
     render() {
+        const viewToRender = this.state.selectedTab === 'login'? <Login />:<Register />;
         return (
-            <ScrollView style={Styles.container} >
+            <View style={Styles.container} >
                 <ToolbarAndroid
                     style={Styles.ToolBar}
                     navIcon={require('../../assets/toolbar/Chauffer_Logo.png')}
@@ -18,16 +27,42 @@ export default class User extends Component {
                 >
                 </ToolbarAndroid>
 
-                <ScrollableTabView
-                    tabBarUnderlineStyle={{backgroundColor:'#26C6DA'}}
-                    tabBarActiveTextColor='#26C6DA'
-                    style={{flex:9}}
-                >
-                    <Login tabLabel='Login' />
-                    <Register tabLabel='Register' />
-                </ScrollableTabView>
-
-            </ScrollView>
+                <View 
+                    style={Styles.tabBar}>
+                    <TouchableOpacity
+                        style={{
+                            borderBottomColor:this.state.selectedTab === 'login'?'#0277BD':'white',
+                            borderBottomWidth:2,
+                            paddingTop:height*.007,
+                            marginRight:10,
+                            marginLeft:10,
+                            flex:1,
+                            alignItems:'center'
+                        }}                        
+                        onPress={() => this.setState({ selectedTab: 'login' })}>
+                         <Text style={{fontSize:20,fontFamily:'Roboto',color:this.state.selectedTab === 'login'?'#0277BD':'#424242'}} >
+                            Login
+                         </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={{
+                            borderBottomColor:this.state.selectedTab === 'register'?'#0277BD':'white',
+                            borderBottomWidth:2,
+                            paddingTop:height*.007,
+                            marginRight:10,
+                            marginLeft:10,
+                            flex:1,
+                            alignItems:'center',
+                         }}
+                        onPress={() => this.setState({ selectedTab: 'register' })}>
+                        <Text style={{fontSize:20,fontFamily:'Roboto',color:this.state.selectedTab === 'register'?'#0277BD':'#424242'}} >
+                            Register
+                        </Text>
+                    </TouchableOpacity>                    
+                </View>  
+                {viewToRender}             
+                
+            </View>
         );
     }
 }
@@ -38,10 +73,19 @@ const Styles = StyleSheet.create({
        flex:1,
    },
    ToolBar:{
-       maxHeight:50,
-       height:50,
-       minHeight:50,
-       flex:1,
-       
-   } 
+       minHeight:height*.09,
+       maxHeight:height*.09,     
+   },
+   tabBar:{
+    minHeight:height*.085,
+    maxHeight:height*.085, 
+    flexDirection:'row',
+    backgroundColor:'white',
+    paddingRight:10, 
+    paddingLeft:10,
+    marginBottom:-7,
+    alignContent:'center',
+    alignItems:'center',
+    justifyContent:'center',
+   }
 });
