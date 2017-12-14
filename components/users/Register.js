@@ -107,7 +107,7 @@ export default class Login extends Component {
                 <View style={{minWidth:width*.7,minHeight:height*.1,marginTop:10,flex:1,paddingTop:10}}>
                     <TouchableOpacity
                         style={{backgroundColor:'#212121',minHeight:height*.1,alignContent:'center',justifyContent:'center'}}
-                        onPress={()=>alert(this.state.emailAdress + "  " + this.state.password)}>
+                        onPress={ () => {Actions.push('Verification');} }>
                     <Text  style={{alignSelf:'center', color:'#f3f3f3', fontSize:20}}> REGISTER </Text>
                     </TouchableOpacity>
                 </View>
